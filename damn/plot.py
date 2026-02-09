@@ -1,3 +1,5 @@
+# flake8: noqa: F821
+
 from typing import List, Tuple, Dict
 import numpy as np
 import tensorflow as tf
