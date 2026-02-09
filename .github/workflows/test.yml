@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, master, dev ]
+    paths:
+      - '**.py'
+  pull_request:
+    branches: [ main, master, dev ]
+
+jobs:
+  Test:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        os: ["ubuntu", "macos", "windows"]
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      # Checkout repo
+      - name: Checkout package repository
+        uses: actions/checkout@v4
+
+      # Setup Conda environment
+      - name: Deploying miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniconda-version: "latest"
+          environment-file: environment.yaml
+          activate-environment: test
+
+      # Install testing dependencies
+      - name: Install testing dependencies
+        run: |
+          conda install -y python pytest pytest-mock
+
+      # Run tests
+      - name: Run tests with pytest
+        run: |
+          python -m pytest -v tests/
