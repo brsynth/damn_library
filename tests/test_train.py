@@ -37,7 +37,8 @@ def test_train_damn_full(organism, file_name, media_file, od_file, cobra_file):
         od_file=od_file,
         media_file=media_file,
         cobra_model_file=cobra_file,
-        folder=OUTPUT_FOLDER
+        model_dir=OUTPUT_FOLDER,
+        figure_dir=OUTPUT_FOLDER
     )
 
     # Check model folder exists
