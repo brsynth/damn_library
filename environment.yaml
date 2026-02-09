@@ -15,5 +15,5 @@ dependencies:
   - pytest
 
   - pip:
-      - tensorflow==2.16.2but 
+      - tensorflow==2.16.2
       - keras==3.9.2
