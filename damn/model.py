@@ -7,8 +7,8 @@ import cobra
 import json
 import matplotlib.pyplot as plt
 import sklearn
-from . import utils
-from . import data
+from damn import utils
+from damn import data
 
 ###############################################################################
 # CREATE MODELS

@@ -1,9 +1,17 @@
+import os
+import numpy as np
+import tensorflow as tf
+from damn import model
+from damn import plot
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 def train_damn(
     organism="custom",
 
     # Output folders (NEW)
-    model_dir="./model",
-    figure_dir="./figure",
+    model_dir=os.path.join(".", "model"),
+    figure_dir=os.path.join(".", "figure"),
 
     # File & data overrides
     file_name = None,
@@ -28,13 +36,6 @@ def train_damn(
     patience=100,
     N_iter=3,
 ):
-    import os
-    import numpy as np
-    import tensorflow as tf
-    from . import model
-    from . import plot
-
-    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
     # DEFAULT PRESETS BY ORGANISM
     PRESETS = {
