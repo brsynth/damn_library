@@ -10,8 +10,8 @@ def train_damn(
     organism="custom",
 
     # Output folders (NEW)
-    model_dir=os.path.join(".", "model"),
-    figure_dir=os.path.join(".", "figure"),
+    #model_dir=os.path.join(".", "model"),
+    #figure_dir=os.path.join(".", "figure"),
 
     # File & data overrides
     file_name = None,
@@ -119,11 +119,11 @@ def train_damn(
     )
 
     # Save validation metadata
-    os.makedirs(model_dir, exist_ok=True)
+    #os.makedirs(model_dir, exist_ok=True)
 
-    np.savetxt(os.path.join(model_dir, f"{run_name}_val_array.txt"), val_array)
-    np.savetxt(os.path.join(model_dir, f"{run_name}_val_dev.txt"), val_dev)
-    np.savetxt(os.path.join(model_dir, f"{run_name}_val_ids.txt"), np.asarray(val_ids))
+    #np.savetxt(os.path.join(model_dir, f"{run_name}_val_array.txt"), val_array)
+    #np.savetxt(os.path.join(model_dir, f"{run_name}_val_dev.txt"), val_dev)
+    #np.savetxt(os.path.join(model_dir, f"{run_name}_val_ids.txt"), np.asarray(val_ids))
 
     # PRETRAIN
     lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
@@ -157,19 +157,39 @@ def train_damn(
             train_test_split=train_test_split,
             x_fold=x_fold
         )
-        mdl_name = os.path.join(model_dir, f"{run_name}_{i}")
-        mdl.save_model(model_name=mdl_name, verbose=True)
-        
+        #mdl_name = os.path.join(model_dir, f"{run_name}_{i}")
+        #mdl_name = f"{run_name}_{i}"
+        #mdl.save_model(model_name=mdl_name, verbose=True)
 
-    os.makedirs(figure_dir, exist_ok=True)
+    #os.makedirs(figure_dir, exist_ok=True)
 
-    plot.plot_loss('Training S_v', losses_s_v_train, num_epochs, save=figure_dir)
-    plot.plot_loss('Training Neg_v', losses_neg_v_train, num_epochs, save=figure_dir)
-    plot.plot_loss('Training C', losses_c_train, num_epochs, save=figure_dir)
-    plot.plot_loss('Training Drop_c', losses_drop_c_train, num_epochs, save=figure_dir)
+   # Plot last run
+    #plot.plot_loss('Training S_v', losses_s_v_train, num_epochs, save=figure_dir)
+    #plot.plot_loss('Training Neg_v', losses_neg_v_train, num_epochs, save=figure_dir)
+    #plot.plot_loss('Training C', losses_c_train, num_epochs, save=figure_dir)
+    #plot.plot_loss('Training Drop_c', losses_drop_c_train, num_epochs, save=figure_dir)#
 
-    if x_fold > 1:
-        plot.plot_loss('Validation S_v', losses_s_v_val, num_epochs, save=figure_dir)
-        plot.plot_loss('Validation Neg_v', losses_neg_v_val, num_epochs, save=figure_dir)
-        plot.plot_loss('Validation C', losses_c_val, num_epochs, save=figure_dir)
-        plot.plot_loss('Validation Drop_c', losses_drop_c_val, num_epochs, save=figure_dir)
+    #if x_fold > 1:
+    #    plot.plot_loss('Validation S_v', losses_s_v_val, num_epochs, save=figure_dir)
+    #    plot.plot_loss('Validation Neg_v', losses_neg_v_val, num_epochs, save=figure_dir)
+    #    plot.plot_loss('Validation C', losses_c_val, num_epochs, save=figure_dir)
+    #    plot.plot_loss('Validation Drop_c', losses_drop_c_val, num_epochs, save=figure_dir)
+
+    # RETURN ALL OUTPUTS
+    return (
+        mdl,
+        run_name,
+        train_array,
+        train_dev,
+        val_array,
+        val_dev,
+        val_ids,
+        losses_s_v_train,
+        losses_neg_v_train,
+        losses_c_train,
+        losses_drop_c_train,
+        losses_s_v_val,
+        losses_neg_v_val,
+        losses_c_val,
+        losses_drop_c_val
+    )
