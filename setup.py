@@ -6,7 +6,7 @@ from os import path as os_path
 package     = 'damn'
 descr       = 'Library to work with Artificial Metabolic Networks (damn)'
 url         = 'https://github.com/brsynth/damn'
-authors     = 'Ramiz Khaled'
+authors     = 'Ramiz Khaled, Danilo Dursoniah, Jean-Loup Faulon'
 corr_author = 'ramiz.khaled@inrae.fr'
 
 ## LONG DESCRIPTION
