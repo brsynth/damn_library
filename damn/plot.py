@@ -157,7 +157,9 @@ def plot_predicted_reference_growth_curve(
         if save:
             title_clean = f"{title.replace(' ', '_').replace('/', '')}"
             plt.savefig(f'{save}/{title_clean}.png', dpi=300, bbox_inches='tight')
-        plt.show()
+            plt.close()  
+        else:
+            plt.show()
 
 def plot_predicted_biomass_and_substrate(
     times, Pred,
@@ -260,7 +262,9 @@ def plot_predicted_biomass_and_substrate(
         if save:
             title_clean = f"{title.replace(' ', '_').replace('/', '')}"
             plt.savefig(f'{save}/{title_clean}.png', dpi=300, bbox_inches='tight')
-        plt.show()
+            plt.close()   
+        else:
+            plt.show()
 
     times=times,
     time_cutoffs=9,   # keep this only if your function signature supports it
@@ -428,5 +432,7 @@ def plot_similarity_distribution(title, r2_values, save=''):
     if save != '':
         safe_title = title.replace(' ', '_')
         plt.savefig(f'{save}/{safe_title}.png', dpi=300, bbox_inches='tight')
-    plt.show()
+        plt.close()  
+    else:
+        plt.show()
     
