@@ -1,10 +1,14 @@
 import os
 import numpy as np
 import tensorflow as tf
+import damn
 from damn import model
 from damn import plot
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+DAMN_DIR = os.path.dirname(os.path.abspath(damn.__file__))
+PROJECT_ROOT = os.path.dirname(DAMN_DIR)
+DOCS_DIR = os.path.join(PROJECT_ROOT, "docs")
 
 def train_damn(
     organism="custom",
@@ -27,7 +31,7 @@ def train_damn(
     loss_weight=None,
     loss_decay=None,
 
-    # Architecture defaults (can override)
+    # Architecture defaults 
     hidden_layers_lag=[50],
     hidden_layers_flux=[500],
     dropout_rate=0.2,
@@ -44,7 +48,8 @@ def train_damn(
             "file_name": "putida_OD_81",
             "od_file": "putida_OD_81.csv",
             "media_file": "putida_media_81.csv",
-            "cobra_model_file": "IJN1463EXP_duplicated.xml",
+            "cobra_model_file": os.path.join(
+                DOCS_DIR, "putida", "IJN1463EXP_duplicated.xml"),
             "biomass_rxn_id": "BIOMASS_KT2440_WT3",
             "seed": 1,
             "num_epochs": 500,
@@ -57,7 +62,8 @@ def train_damn(
             "file_name": "M28_OD_20",
             "od_file": "M28_OD_20.csv",
             "media_file": "M28_media.csv",
-            "cobra_model_file": "iML1515_duplicated.xml",
+            "cobra_model_file": os.path.join(
+                DOCS_DIR, "putida","iML1515_duplicated.xml"),
             "biomass_rxn_id": "BIOMASS_Ec_iML1515_core_75p37M",
             "seed": 30,
             "num_epochs": 1000,
@@ -67,7 +73,7 @@ def train_damn(
 
         "custom": {
             "train_test_split": "medium",
-            "file_name": "M28_OD_20",
+            "file_name": "name",
             "media_file": "custom_media.csv",
             "cobra_model_file": "model.xml",
             "biomass_rxn_id": "BIOMASS_RXN",
@@ -84,16 +90,16 @@ def train_damn(
     cfg = PRESETS[organism]
 
     # Apply overrides if provided
-    train_test_split = train_test_split or cfg["train_test_split"]
-    file_name= file_name or cfg["file_name"]
-    od_file = od_file or cfg["od_file"]   
-    media_file = media_file or cfg["media_file"]
-    cobra_model_file = cobra_model_file or cfg["cobra_model_file"]
-    biomass_rxn_id = biomass_rxn_id or cfg["biomass_rxn_id"]
+    train_test_split = train_test_split if train_test_split is not None else cfg["train_test_split"]
+    file_name= file_name if file_name is not None else cfg["file_name"]
+    od_file = od_file   
+    media_file = media_file 
+    cobra_model_file = cobra_model_file if cobra_model_file is not None else cfg["cobra_model_file"]
+    biomass_rxn_id = biomass_rxn_id if biomass_rxn_id is not None else cfg["biomass_rxn_id"]
     seed = seed if seed is not None else cfg["seed"]
-    num_epochs = num_epochs or cfg["num_epochs"]
-    loss_weight = loss_weight or cfg["loss_weight"]
-    loss_decay = loss_decay or cfg["loss_decay"]
+    num_epochs = num_epochs if num_epochs is not None else cfg["num_epochs"]
+    loss_weight = loss_weight if loss_weight is not None else cfg["loss_weight"]
+    loss_decay = loss_decay if loss_decay is not None else cfg["loss_decay"]
 
     media_file = media_file
     od_file = od_file
@@ -145,6 +151,7 @@ def train_damn(
         )
 
     # TRAIN MODEL
+    models = {}
     for i in range(N_iter):
         (
             (losses_s_v_train, losses_neg_v_train, losses_c_train, losses_drop_c_train),
@@ -157,6 +164,7 @@ def train_damn(
             train_test_split=train_test_split,
             x_fold=x_fold
         )
+        models[f"{run_name}_{i}"] = mdl
         #mdl_name = os.path.join(model_dir, f"{run_name}_{i}")
         #mdl_name = f"{run_name}_{i}"
         #mdl.save_model(model_name=mdl_name, verbose=True)
@@ -178,6 +186,7 @@ def train_damn(
     # RETURN ALL OUTPUTS
     return (
         mdl,
+        models,
         run_name,
         train_array,
         train_dev,
