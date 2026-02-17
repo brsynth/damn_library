@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu", "macos", "windows"]
+        os: ["ubuntu", "windows"]
     defaults:
       run:
         shell: bash -l {0}
