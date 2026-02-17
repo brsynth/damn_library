@@ -40,4 +40,4 @@ jobs:
       # Run tests
       - name: Run tests with pytest
         run: |
-          python -m pytest -v tests/test_predict
+          python -m pytest -v tests/test_predict.py
