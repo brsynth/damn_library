@@ -137,7 +137,7 @@ def damn_train(argv=None):
             plot_epochs = 1000
     else:
         plot_epochs = 500
-        
+
     plot.plot_loss('Training S_v', losses_s_v_train, num_epochs=plot_epochs, save=figure_dir)
     plot.plot_loss('Training Neg_v', losses_neg_v_train, num_epochs=plot_epochs, save=figure_dir)
     plot.plot_loss('Training C', losses_c_train, num_epochs=plot_epochs, save=figure_dir)
@@ -151,122 +151,122 @@ def damn_train(argv=None):
     return zip_file_path , figure_dir
 
 
-#def damn_predict(argv=None):
-#    parser = argparse.ArgumentParser(description="DAMN Model prediction",
-#                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+def damn_predict(argv=None):
+    parser = argparse.ArgumentParser(description="DAMN Model prediction",
+                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-#    parser.add_argument("--organism", choices=["ecoli", "putida", "custom"], default="custom",
-#                        help="model type")
+    parser.add_argument("--organism", choices=["ecoli", "putida", "custom"], default="custom",
+                        help="model type")
 
-#    parser.add_argument("--file-name", type=str,
-#                        help="Training dataset file")
-#    parser.add_argument("--metabolite-ids", type=str, nargs="+",
-#                        help="Metabolites ids")
+    parser.add_argument("--file-name", type=str,
+                        help="Training dataset file")
+    parser.add_argument("--metabolite-ids", type=str, nargs="+",
+                        help="Metabolites ids")
 
-#    parser.add_argument("--train-test-split", type=str,
-#                        help="Train/test split ratio (e.g., 0.8)")
-#    parser.add_argument("--n-iter", type=int, default=3,
-#                        help="Number of training iterations")
-#    parser.add_argument("--ods", type=lambda x: x.lower() == "true", default=True,
-#                        help="when True biomass concentration transformed in OD")
-#    parser.add_argument("--plot-type", choices=["growth", "substrate"], type=str,
-#                        help="plot type")
+    parser.add_argument("--train-test-split", type=str,
+                        help="Train/test split ratio (e.g., 0.8)")
+    parser.add_argument("--n-iter", type=int, default=3,
+                        help="Number of training iterations")
+    parser.add_argument("--ods", type=lambda x: x.lower() == "true", default=True,
+                        help="when True biomass concentration transformed in OD")
+    parser.add_argument("--plot-type", choices=["growth", "substrate"], type=str,
+                        help="plot type")
 
-#    parser.add_argument("--r2min", type=float, default=0,
-#                        help="range you want the plots to be printed min")
-#    parser.add_argument("--r2max", type=float, default=0.5,
-#                        help="range you want the plots to be printed max")
+    parser.add_argument("--r2min", type=float, default=0,
+                        help="range you want the plots to be printed min")
+    parser.add_argument("--r2max", type=float, default=0.5,
+                        help="range you want the plots to be printed max")
 
-#    parser.add_argument("--model-dir", type=str,
-#                        help="Zip files contains models in h5 and json format") 
-#    parser.add_argument("--figure-dir",type=str,default=os.path.join(os.getcwd(), "figure"),
-#                        help="Directory to save outputs (default: ./figure in working directory)")
+    parser.add_argument("--model-dir", type=str,
+                        help="Zip files contains models in h5 and json format") 
+    parser.add_argument("--figure-dir",type=str,default=os.path.join(os.getcwd(), "figure"),
+                        help="Directory to save outputs (default: ./figure in working directory)")
 
-#    args = parser.parse_args(argv)
+    args = parser.parse_args(argv)
 
     #UnZip model
-#    with tempfile.TemporaryDirectory() as tmp_dir:
-#        with zipfile.ZipFile(args.model_dir) as z:
-#            z.extractall(tmp_dir)
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        with zipfile.ZipFile(args.model_dir) as z:
+            z.extractall(tmp_dir)
 
 
-#        (
-#            Pred, 
-#            Ref, 
-#            R2, 
-#            R2dev, 
-#            times, 
-#            val_dev, 
-#            val_ids , 
-#            mdl,  
-#            run_name, 
-#            train_test_split, 
-#            plot_type, 
-#            OD, 
-#            R2min, 
-#            R2max
-#        ) = test_damn(
-#            organism=args.organism,
-#            train_test_split=args.train_test_split,
-#            file_name=args.file_name,
-#            OD=args.ods,
-#            plot_type=args.plot_type,
-#            N_iter=args.n_iter,
-#            R2min=args.r2min,
-#            R2max=args.r2max,
-#            model_dir=tmp_dir
-#        )
+        (
+            Pred, 
+            Ref, 
+            R2, 
+            R2dev, 
+            times, 
+            val_dev, 
+            val_ids , 
+            mdl,  
+            run_name, 
+            train_test_split, 
+            plot_type, 
+            OD, 
+            R2min, 
+            R2max
+        ) = test_damn(
+            organism=args.organism,
+            train_test_split=args.train_test_split,
+            file_name=args.file_name,
+            OD=args.ods,
+            plot_type=args.plot_type,
+            N_iter=args.n_iter,
+            R2min=args.r2min,
+            R2max=args.r2max,
+            model_dir=tmp_dir
+        )
 
 
     # Plot last run
-#    figure_dir = args.figure_dir
-#    os.makedirs(figure_dir, exist_ok=True)
+    figure_dir = args.figure_dir
+    os.makedirs(figure_dir, exist_ok=True)
 
-#    title = f"R2 Histogram {train_test_split}"
-#    plot.plot_similarity_distribution(title, R2, save=figure_dir)
+    title = f"R2 Histogram {train_test_split}"
+    plot.plot_similarity_distribution(title, R2, save=figure_dir)
 
- #   if plot_type == "growth":
- #       plot.plot_predicted_reference_growth_curve(
- #           times=times,
- #           Pred=Pred,
- #           Ref=Ref,
- #           val_dev=val_dev,
- #           OD=OD,
- #           R2=R2,
- #           R2dev=R2dev,
- #           train_time_steps=getattr(mdl, "train_time_steps", 0),
- #           experiment_ids=list(val_ids),
- #           run_name=run_name,
- #           train_test_split=train_test_split,
- #           R2min=R2min,
- #           R2max=R2max,
- #           save=figure_dir
- #       )
+    if plot_type == "growth":
+        plot.plot_predicted_reference_growth_curve(
+            times=times,
+            Pred=Pred,
+            Ref=Ref,
+            val_dev=val_dev,
+            OD=OD,
+            R2=R2,
+            R2dev=R2dev,
+            train_time_steps=getattr(mdl, "train_time_steps", 0),
+            experiment_ids=list(val_ids),
+            run_name=run_name,
+            train_test_split=train_test_split,
+            R2min=R2min,
+            R2max=R2max,
+            save=figure_dir
+        )
 
- #   elif plot_type == "substrate":
- #       plot.plot_predicted_biomass_and_substrate(
- #           times,
- #           Pred,
- #           experiment_ids=list(val_ids),
- #           metabolite_ids=list(mdl.metabolite_ids),
- #           run_name=run_name,
- #           train_test_split=train_test_split,
- #           save=figure_dir
- #       )
+    elif plot_type == "substrate":
+        plot.plot_predicted_biomass_and_substrate(
+            times,
+            Pred,
+            experiment_ids=list(val_ids),
+            metabolite_ids=list(mdl.metabolite_ids),
+            run_name=run_name,
+            train_test_split=train_test_split,
+            save=figure_dir
+        )
 
 def main():
     parser = argparse.ArgumentParser(prog="damn", description="DAMN CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("train", help="Train DAMN model")
-    #subparsers.add_parser("predict", help="Prediction DAMN model")
+    subparsers.add_parser("predict", help="Prediction DAMN model")
     args = parser.parse_args(sys.argv[1:2])
 
     # Dispatch
     if args.command == "train":
         damn_train(sys.argv[2:])
-    #elif args.command == "predict":
-        #damn_predict(sys.argv[2:])
+    elif args.command == "predict":
+        damn_predict(sys.argv[2:])
 
 if __name__ == "__main__":
     main()
