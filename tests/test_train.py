@@ -36,6 +36,7 @@ def test_train_damn_full(organism, file_name, media_file, od_file, cobra_file):
     # Run the training and capture all returned variables
     (
         mdl,
+        models, 
         run_name,
         train_array,
         train_dev,
