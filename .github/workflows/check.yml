@@ -1,0 +1,46 @@
+name: Check
+
+on:
+  push:
+    branches: [ main, master, dev ]
+    paths:
+      - '**.py'
+  pull_request:
+    branches: [ main, master, dev ]
+
+jobs:
+  Check:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo
+      - name: Checkout damn_library
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Use Miniconda Docker for environment
+      - name: Use Miniconda Docker
+        uses: docker://continuumio/miniconda3
+
+      # Update conda and install make
+      - name: Update conda and install make
+        run: |
+          conda update --all -y
+          conda install -y make
+
+      # Checkout CI/CD Toolkit for build checks
+      - name: Checkout CI/CD Toolkit
+        uses: actions/checkout@v4
+        with:
+          repository: breakthewall/cicd-toolkit
+          path: cicd-toolkit
+          persist-credentials: false
+          fetch-depth: 0
+
+      # Run package checks
+      - name: Run build and environment checks
+        run: |
+          cd cicd-toolkit
+          make check-buildenv env=check
+          conda run -n check make check
