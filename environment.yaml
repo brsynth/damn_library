@@ -4,16 +4,16 @@ channels:
   - defaults
 
 dependencies:
-  - python=3.10.18
+  - python =3.10.18
   - pip
-  - numpy=1.23.5
+  - numpy =1.23.5
   - pandas
   - scipy
   - scikit-learn
-  - matplotlib
-  - cobra=0.29.1
+  - matplotlib-base
+  - cobra =0.29.1
   - pytest
 
   - pip:
-      - tensorflow==2.16.2
-      - keras==3.9.2
+      - tensorflow ==2.16.2
+      - keras ==3.9.2
