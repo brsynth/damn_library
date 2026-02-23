@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.2](https://github.com/brsynth/damn_library/tree/0.1.2) (2026-02-23)
+
+[Full Changelog](https://github.com/brsynth/damn_library/compare/0.1.1...0.1.2)
+
 ## [0.1.1](https://github.com/brsynth/damn_library/tree/0.1.1) (2026-02-23)
 
 [Full Changelog](https://github.com/brsynth/damn_library/compare/0.1.0...0.1.1)
