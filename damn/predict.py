@@ -17,7 +17,7 @@ def test_damn(
     # INPUT folders
     model_dir="data",
 
-    # Output folders
+    # OUTPUT folders
     #figure_dir="./figure",
 
     # File & data overrides
