@@ -4,7 +4,7 @@ channels:
   - defaults
 
 dependencies:
-  - python =3.10.18
+  - python =3.9
   - pip
   - numpy =1.23.5
   - pandas
