@@ -30,7 +30,6 @@ def test_damn(
     OD=None,
     plot_type=None,
 
-    # Plot params 
     # range you want the plots to be printed
     R2min=0,
     R2max=0.5,
