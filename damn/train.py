@@ -1,14 +1,24 @@
 import os
 import numpy as np
 import tensorflow as tf
+from importlib.resources import files
 import damn
 from damn import model
 from damn import plot
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-DAMN_DIR = os.path.dirname(os.path.abspath(damn.__file__))
-PROJECT_ROOT = os.path.dirname(DAMN_DIR)
-DOCS_DIR = os.path.join(PROJECT_ROOT, "docs")
+#DAMN_DIR = os.path.dirname(os.path.abspath(damn.__file__))
+#PROJECT_ROOT = os.path.dirname(DAMN_DIR)
+#DOCS_DIR = os.path.join(PROJECT_ROOT, "docs")
+
+
+def get_default_model(organism):
+    if organism.lower() == "putida":
+        return str(files("damn.models.putida").joinpath("IJN1463EXP_duplicated.xml"))
+    elif organism.lower() == "ecoli":
+        return str(files("damn.models.ecoli").joinpath("iML1515_duplicated.xml"))
+    else:
+        raise ValueError("Custom model must be provided")
 
 def train_damn(
     organism="custom",
@@ -48,8 +58,7 @@ def train_damn(
             "file_name": "putida_OD_81",
             "od_file": "putida_OD_81.csv",
             "media_file": "putida_media_81.csv",
-            "cobra_model_file": os.path.join(
-                DOCS_DIR, "putida", "IJN1463EXP_duplicated.xml"),
+            "cobra_model_file": get_default_model('putida'),
             "biomass_rxn_id": "BIOMASS_KT2440_WT3",
             "seed": 1,
             "num_epochs": 500,
@@ -62,8 +71,7 @@ def train_damn(
             "file_name": "M28_OD_20",
             "od_file": "M28_OD_20.csv",
             "media_file": "M28_media.csv",
-            "cobra_model_file": os.path.join(
-                DOCS_DIR, "putida","iML1515_duplicated.xml"),
+            "cobra_model_file": get_default_model('ecoli'),
             "biomass_rxn_id": "BIOMASS_Ec_iML1515_core_75p37M",
             "seed": 30,
             "num_epochs": 1000,
