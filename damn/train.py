@@ -14,9 +14,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 def get_default_model(organism):
     if organism.lower() == "putida":
-        return str(files("damn.models.putida").joinpath("IJN1463EXP_duplicated.xml"))
+        return str(files("damn.models").joinpath("IJN1463EXP_duplicated.xml"))
     elif organism.lower() == "ecoli":
-        return str(files("damn.models.ecoli").joinpath("iML1515_duplicated.xml"))
+        return str(files("damn.models").joinpath("iML1515_duplicated.xml"))
     else:
         raise ValueError("Custom model must be provided")
 
